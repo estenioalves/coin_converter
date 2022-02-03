@@ -59,8 +59,10 @@
        app:layout_constraintEnd_toStartOf="@id/til_to">
 
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/tv_from"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="false"
             android:inputType="none"/>
 
 
@@ -78,19 +80,21 @@
         app:layout_constraintEnd_toEndOf="@id/guide_end">
 
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/tv_to"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="false"
             android:inputType="none"/>
 
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_converter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Converter"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/black"
+        android:enabled="false"
         app:layout_constraintTop_toBottomOf="@id/til_from"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
