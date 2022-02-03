@@ -3,13 +3,17 @@ package br.com.dio.coinconverter.ui
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.core.widget.doAfterTextChanged
+import br.com.dio.coinconverter.core.extensions.*
 import br.com.dio.coinconverter.data.model.Coin
 import br.com.dio.coinconverter.databinding.ActivityMainBinding
+import br.com.dio.coinconverter.presentation.di.MainViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel by viewModel<MainViewModel>()
+    private val dialog by lazy { createProgressDialog() }
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         bindAdapter()
         bindListeners()
+
+        bindOnObserve()
     }
+
+
 
     private fun bindAdapter() {
         val list = Coin.values()
@@ -37,8 +45,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnConverter.setOnClickListener {
+            it.hideSoftKeyboard()
+            val search = "${binding.tilFrom.text}--${binding.tilTo.text}"
+
+            viewModel.getExchangeValue(search)
 
         }
 
+    }
+
+    private fun bindOnObserve() {
+        viewModel.state.observe(this) {
+            when (it) {
+                MainViewModel.State.Loading -> dialog.show()
+                is MainViewModel.State.Error -> {
+                    dialog.dismiss()
+                    createDialog {
+                        setMessage(it.error.message)
+                    }.show()
+                }
+                is MainViewModel.State.Success ->  success(it)
+
+            }
+        }
+    }
+
+    private fun success(it: MainViewModel.State.Success) {
+        dialog.dismiss()
+
+        val selectedCoin = binding.tilTo.text
+        val coin = Coin.values().find { it.name == selectedCoin }?: Coin.BRL
+
+        val result = it.exchange.bid * binding.tilValue.text.toDouble()
+
+
+        binding.tvResult.text = result.formatCurrency(coin.locale)
     }
 }
