@@ -10,15 +10,18 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import br.com.dio.coinconverter.data.repository.CoinRepository
+import br.com.dio.coinconverter.data.repository.CoinRepositoryImpl
 
 object DataModules {
 
     private const val HTTP_TAG = "OhHttp"
 
     fun load(){
-        loadKoinModules(networkModule())
+        loadKoinModules(networkModule() + repositoryModule())
     }
+
+
 
     private fun networkModule(): Module {
         return module {
@@ -44,7 +47,13 @@ object DataModules {
 
         }
     }
-    private inline fun <reified T> createService(client: OkHttpClient, factory: GsonConverterFactory): Int? {
+    private fun repositoryModule(): Module {
+        return module{
+            single<CoinRepository> { CoinRepositoryImpl(get()) }
+        }
+
+    }
+    private inline fun <reified T> createService(client: OkHttpClient, factory: GsonConverterFactory): T {
             return Retrofit.Builder()
             .baseUrl("https://economia.awesomeapi.com.br")
             .client(client)
