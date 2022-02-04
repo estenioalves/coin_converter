@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         binding.tvFrom.setAdapter(adapter)
         binding.tvTo.setAdapter(adapter)
 
-        binding.tvFrom.setText(Coin.BRL.name, false)
-        binding.tvTo.setText(Coin.USD.name, false)
+        binding.tvFrom.setText(Coin.USD.name, false)
+        binding.tvTo.setText(Coin.BRL.name, false)
     }
 
     private fun bindListeners(){
