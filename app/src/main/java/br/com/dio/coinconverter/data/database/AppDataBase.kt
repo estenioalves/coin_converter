@@ -17,8 +17,8 @@ abstract class AppDataBase : RoomDatabase() {
             return Room.databaseBuilder(
                 context.applicationContext,
                 AppDataBase::class.java,
-            "app_database"
-            ) .fallbackToDestructiveMigration().build()
+            "exchange_app_db"
+            ).build()
         }
     }
 }

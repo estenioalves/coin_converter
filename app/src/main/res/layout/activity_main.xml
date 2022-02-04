@@ -101,6 +101,17 @@
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         android:layout_marginTop="@dimen/layout_padding"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/btn_converter"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"/>
+
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
@@ -110,7 +121,7 @@
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_converter"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_save"/>
 
 
 
